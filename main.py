@@ -30,7 +30,7 @@ def main():
                     translation = input("There is no such word in the vocabulary yet, add translation: ")              
                     new_word = Word(word_name, translation)
                     db.add_word(new_word)
-                    curr_chapter = Chapter(Chapter.number == chapt_num)
+                    curr_chapter = Chapter(Chapter.number == curr_num_chapter)
                     db.add_new_word_in_chapter(curr_chapter)
                 start_word = input("Want to continue? ")        
         elif start_word[0] == 's':
@@ -38,7 +38,7 @@ def main():
             while not db.is_book_exists(curr_book):
                 curr_book = input("There is no book with such name. Please, enter again: ")
             curr_num_chapter = input("Enter chapter's number: ")
-            curr_chapter = Chapter(Chapter.number == chapt_num)
+            curr_chapter = Chapter(Chapter.number == curr_num_chapter)
             if len(Chapter.new_words) == 1:
                  print("There is only one (1) new word in this chapter")
             else:
