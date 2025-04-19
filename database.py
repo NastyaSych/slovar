@@ -3,13 +3,24 @@ from model import *
 
 class InMemoryRepository():
     
+    _books: Dict[str, Book] = None
     _vocab: Dict[str, Word] = None
-    _counters: list[Counter] = None  
+    _counters: list[Counter] = None
+    _new_words: Dict[Chapter, list[Word]] = None
 
     def __init__(self):
         self._vocab = {}
         self._counters = []
-                
+
+    def add_book(self, book: Book):
+        self._books.append(book)
+
+    def add_new_word_in_chapter(self, chapter: Chapter, word: Word):
+        self._new_words[Chapter].append(Word)
+
+    def is_book_exists(self, value: str) -> bool:
+        return value in self._books    
+
     def is_word_exists(self, value: str) -> bool:
         return value in self._vocab
 

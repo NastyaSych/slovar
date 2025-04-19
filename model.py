@@ -7,6 +7,7 @@ class Word:
     
 @dataclass
 class Chapter:
+    number: int
     title: str
     new_words: list[Word]    
 
