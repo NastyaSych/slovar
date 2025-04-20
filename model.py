@@ -9,18 +9,21 @@ class Word:
     translation: str
 
     def __post_init__(self):
-        self.uid = uuid4()
+        if self.uid is None:
+            self.uid = uuid4()
 
 
 @dataclass
 class Chapter:
     uid: UUID
+    book_uid: UUID
     number: int
     title: str
     new_words: list[UUID]
 
     def __post_init__(self):
-        self.uid = uuid4()
+        if self.uid is not None:
+            self.uid = uuid4()
 
 
 @dataclass
@@ -30,7 +33,8 @@ class Book:
     chapters: list[UUID]
 
     def __post_init__(self):
-        self.uid = uuid4()
+        if self.uid is not None:
+            self.uid = uuid4()
 
 
 @dataclass
@@ -41,4 +45,5 @@ class Counter:
     word: UUID
 
     def __post_init__(self):
-        self.uid = uuid4()
+        if self.uid is not None:
+            self.uid = uuid4()

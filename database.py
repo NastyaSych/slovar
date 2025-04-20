@@ -1,13 +1,13 @@
 from typing import Dict
-from model import *
+from model import Book, Chapter, Word, Counter
 from uuid import UUID
 
 
 class InMemoryRepository:
     _books: Dict[UUID, Book] = None
+    _chapters: Dict[UUID, Chapter] = None
     _words: Dict[UUID, Word] = None
     _counters: Dict[UUID, Counter] = None
-    _chapters: Dict[UUID, Chapter] = None
 
     def __init__(self):
         self._words = {}
@@ -30,6 +30,9 @@ class InMemoryRepository:
 
     def add_book(self, book: Book):
         self._books[book.uid] = book
+
+    def add_chapter(self, chapter: Chapter):
+        self._chapters[chapter.uid] = chapter
 
     def is_book_with_title_exists(self, title: str) -> bool:
         all_books = self._books.values()
@@ -56,14 +59,25 @@ class InMemoryRepository:
         else:
             raise Exception("There are more than two chapters in the book")
 
-    # def is_word_exists(self, value: str) -> bool:
-    #     return value in self._vocab
+    def add_chapters_to_book(self, chapters: list[Chapter], book_uid: UUID):
+        for c in chapters:
+            self._books[book_uid].chapters.append(c.uid)
 
-    # def get_word(self, value: str) -> Word:
-    #     return self._vocab[value]
+    def is_word_exists(self, value: str) -> bool:
+        all_words = self._words.values()
+        matched_words = [w for w in all_words if w.value == value]
+        if len(matched_words) == 1:
+            return True
+        else:
+            return False
 
-    # def get_translation(self, value: str) -> str:
-    #     return self.get_word(value).translation
+    def get_word_uid(self, value: str) -> UUID:
+        all_words = self._words.values()
+        matched_words = [w for w in all_words if w.value == value]
+        return matched_words[0].uid
 
-    # def add_word(self, word: Word):
-    #     self._vocab[word.value] = word
+    def get_translation(self, value: str) -> str:
+        return self._words[self.get_word_uid(value)].translation
+
+    def add_word(self, word: Word):
+        self._words[word.uid] = word
