@@ -1,9 +1,9 @@
 from typing import Dict
 from model import *
-from uuid import UUID, uuid4
+from uuid import UUID
 
-class InMemoryRepository():
-    
+
+class InMemoryRepository:
     _books: Dict[UUID, Book] = None
     _words: Dict[UUID, Word] = None
     _counters: Dict[UUID, Counter] = None
@@ -27,7 +27,7 @@ class InMemoryRepository():
             raise Exception("There is no book with such title")
         else:
             raise Exception("There are more than one book with such title")
-        
+
     def add_book(self, book: Book):
         self._books[book.uid] = book
 
@@ -61,7 +61,7 @@ class InMemoryRepository():
 
     # def get_word(self, value: str) -> Word:
     #     return self._vocab[value]
-        
+
     # def get_translation(self, value: str) -> str:
     #     return self.get_word(value).translation
 

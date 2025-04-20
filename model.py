@@ -1,5 +1,6 @@
-from dataclasses import dataclass 
+from dataclasses import dataclass
 from uuid import UUID, uuid4
+
 
 @dataclass
 class Word:
@@ -9,16 +10,18 @@ class Word:
 
     def __post_init__(self):
         self.uid = uuid4()
-    
+
+
 @dataclass
 class Chapter:
     uid: UUID
     number: int
     title: str
-    new_words: list[UUID]   
+    new_words: list[UUID]
 
     def __post_init__(self):
-        self.uid = uuid4() 
+        self.uid = uuid4()
+
 
 @dataclass
 class Book:
@@ -28,6 +31,7 @@ class Book:
 
     def __post_init__(self):
         self.uid = uuid4()
+
 
 @dataclass
 class Counter:
