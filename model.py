@@ -22,7 +22,7 @@ class Chapter:
     new_words: list[UUID]
 
     def __post_init__(self):
-        if self.uid is not None:
+        if self.uid is None:
             self.uid = uuid4()
 
 
@@ -33,7 +33,7 @@ class Book:
     chapters: list[UUID]
 
     def __post_init__(self):
-        if self.uid is not None:
+        if self.uid is None:
             self.uid = uuid4()
 
 
@@ -45,5 +45,5 @@ class Counter:
     word: UUID
 
     def __post_init__(self):
-        if self.uid is not None:
+        if self.uid is None:
             self.uid = uuid4()

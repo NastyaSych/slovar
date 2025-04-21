@@ -47,13 +47,13 @@ class InMemoryRepository:
     def add_new_word_in_chapter(self, chapter_uid: UUID, word_uid: UUID):
         self._chapters[chapter_uid].new_words.append(word_uid)
 
-    def get_chapter_uid_by_number(self, chapter_number: int, book_uid: UUID) -> UUID:
+    def get_chapter_by_number(self, chapter_number: int, book_uid: UUID) -> UUID:
         curr_book = self._books[book_uid]
         chapter_uids = curr_book.chapters
         chapters = [self._chapters[uid] for uid in chapter_uids]
         matched_chapters = [c for c in chapters if c.number == chapter_number]
         if len(matched_chapters) == 1:
-            return matched_chapters[0].uid
+            return matched_chapters[0]
         elif len(matched_chapters) == 0:
             raise Exception("There is no such chapter in the book")
         else:
