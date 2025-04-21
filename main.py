@@ -1,37 +1,46 @@
 import sys
 from database import InMemoryRepository
 from model import Book, Chapter, Word
+from uuid import UUID
+
+
+def create_new_chapter(num_chapter: int, new_book_uid: UUID):
+    chapter = input(
+        f"Enter title of chapter {num_chapter} (if it has no title, enter 0): "
+    )
+    if chapter == "0":
+        chapter = f"Chapter {num_chapter}"
+    new_chapter = Chapter(
+        uid=None,
+        book_uid=new_book_uid,
+        number=num_chapter,
+        title=chapter,
+        new_words=[],
+    )  # тут у главы появляется uid
+    return new_chapter
+
+
+def create_new_book(db: InMemoryRepository, curr_book):
+    num_chapters = int(
+        input(
+            "There is no book with such name. We will add it now. How many chapters are in this book? "
+        )
+    )
+    new_book = Book(uid=None, title=curr_book, chapters=[])
+    # выше у книги появляется uid при создании
+    db.add_book(new_book)
+    list_Chapters = []
+    for num_chapter in range(1, num_chapters + 1):
+        new_chapter = create_new_chapter(num_chapter, new_book.uid)
+        db.add_chapter(new_chapter)
+        list_Chapters.append(new_chapter)
+    db.add_chapters_to_book(list_Chapters, new_book.uid)
 
 
 def vocabulary_mode(db: InMemoryRepository):
     curr_book = input("Enter book's name: ")
     if not db.is_book_with_title_exists(curr_book):
-        num_chapters = int(
-            input(
-                "There is no book with such name. We will add it now. How many chapters are in this book? "
-            )
-        )
-        new_book = Book(uid=None, title=curr_book, chapters=[])
-        # выше у книги появляется uid при создании
-        db.add_book(new_book)
-        list_Chapters = []
-        chapters = {}  # словарь номер главы - название
-        for num_chapter in range(1, num_chapters + 1):
-            chapters[num_chapter] = input(
-                f"Enter title of chapter {num_chapter} (if it has no title, enter 0): "
-            )
-            if chapters[num_chapter] == "0":
-                chapters[num_chapter] = f"Chapter {num_chapter}"
-            new_chapter = Chapter(
-                uid=None,
-                book_uid=new_book.uid,
-                number=num_chapter,
-                title=chapters[num_chapter],
-                new_words=[],
-            )  # тут у главы появляется uid
-            db.add_chapter(new_chapter)
-            list_Chapters.append(new_chapter)
-        db.add_chapters_to_book(list_Chapters, new_book.uid)
+        create_new_book(db, curr_book)
     curr_chapter_num = int(input("Enter chapter's number: "))
     word_name = input("Enter the word: ")
     if db.is_word_exists(word_name):
