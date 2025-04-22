@@ -62,7 +62,7 @@ class InMemoryRepository:
         else:
             raise Exception("There are more than one counter")
 
-    def get_counter_full(self, word_uid: UUID) -> int:
+    def get_counter_for_word(self, word_uid: UUID) -> int:
         all_counters = self._counters.values()
         matched_count = 0
         for c in all_counters:

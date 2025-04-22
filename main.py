@@ -48,7 +48,6 @@ def vocabulary_mode(db: InMemoryRepository):
         book_uid = db.get_book_by_title(curr_book).uid
         chapter_uid = db.get_chapter_by_number(curr_chapter_num, book_uid)
         db.counter_inc(chapter_uid, db.get_word_uid(word_name))
-        print()
     else:
         translation = input(
             "There is no such word in the vocabulary yet, add translation: "
@@ -111,10 +110,6 @@ def calls_number_chapter(
     chapter_uid = db.get_chapter_by_number(curr_chapter_num, book_uid)
     word_uid = db.get_word_uid(word_inq)
     number = db.get_counter(chapter_uid, word_uid).value
-    print(number)
-    print(db.get_book_by_title(curr_book).title)
-    print(chapter_uid)
-    print(db.get_word_by_id(word_uid).value)
     if number == 1:
         print(f"There is only one (1) call for word {word_inq} in this chapter")
     elif number == 0:
@@ -135,7 +130,7 @@ def num_all_words(db):
 
 def num_all_calls(db, word_inq: str):
     word_inq_uid = db.get_word_uid(word_inq)
-    matched_count = db.get_counter_full(word_inq_uid)
+    matched_count = db.get_counter_for_word(word_inq_uid)
     if matched_count == 1:
         print(f"There is only one(1) call for word {word_inq} for all time")
     elif matched_count == 0:
