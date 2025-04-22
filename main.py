@@ -61,9 +61,9 @@ def vocabulary_mode(db: InMemoryRepository):
 
 
 def new_words_number_book(db: InMemoryRepository, curr_book: str):
-    curr_Book = db.get_book_by_title(curr_book)
+    curr_book_full = db.get_book_by_title(curr_book)
     new_words_num = 0
-    for ch_uid in curr_Book.chapters:
+    for ch_uid in curr_book_full.chapters:
         new_words_num += db.get_num_new_words_in_chapter(ch_uid)
     if new_words_num == 1:
         print("There is only one (1) new word in this book")
@@ -75,13 +75,13 @@ def new_words_number_book(db: InMemoryRepository, curr_book: str):
 
 
 def calls_number_book(db: InMemoryRepository, word_inq: str, curr_book: str):
-    curr_Book = db.get_book_by_title(curr_book)
+    curr_book_full = db.get_book_by_title(curr_book)
     calls_num = 0
     word_uid = db.get_word_uid(word_inq)
-    for ch_uid in curr_Book.chapters:
+    for ch_uid in curr_book_full.chapters:
         calls_num += db.get_counter(ch_uid, word_uid).value
     if calls_num == 1:
-        print("There is only one (1) call for word {word_inq} in this book")
+        print(f"There is only one (1) call for word {word_inq} in this book")
     elif calls_num == 0:
         print(f"There are no calls for word {word_inq} in this book")
     else:

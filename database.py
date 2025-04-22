@@ -35,16 +35,17 @@ class InMemoryRepository:
         self._words[word.uid] = word
 
     def get_len_list(self, type: str) -> int:
-        if type == "books":
-            return len(self._books)
-        elif type == "chapters":
-            return len(self.chapters)
-        elif type == "words":
-            return len(self._words)
-        elif type == "counters":
-            return len(self._counters)
-        else:
-            raise Exception("There is no such type")
+        match type:
+            case "books":
+                return len(self._books)
+            case "chapters":
+                return len(self.chapters)
+            case "words":
+                return len(self._words)
+            case "counters":
+                return len(self._counters)
+            case _:
+                raise Exception("There is no such type")
 
     def get_counter(self, chapter_uid: UUID, word_uid: UUID) -> Counter:
         all_counters = self._counters.values()
